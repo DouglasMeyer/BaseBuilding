@@ -1,0 +1,37 @@
+{
+  "name": "Base_Building",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Douglas Meyer <Douglas.Meyer@mail.com>",
+  "dependencies": {
+    "browserify": "",
+    "connect": "",
+    "del": "",
+    "es6ify": "",
+    "event-stream": "",
+    "glob": "",
+    "gulp": "",
+    "gulp-add-src": "",
+    "gulp-less": "",
+    "gulp-minify-css": "",
+    "gulp-mocha": "",
+    "gulp-util": "",
+    "sinon": "",
+    "sinon-chai": "",
+    "through2": "",
+    "vinyl-source-stream": "",
+    "watchify": ""
+  },
+  "devDependencies": {
+    "gulp-inject-reload": "",
+    "gulp-livereload": "",
+    "gulp-notify": "",
+    "gulp-watch": "",
+    "proxyquire": "",
+    "proxyquireify": "^3.0.0",
+    "serve-static": ""
+  }
+}
