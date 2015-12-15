@@ -47,6 +47,19 @@ global.random = function random(max, min, random){
 };
 
 //FIXME: Do I want to be extending natives?
-Array.prototype.substitute = function ArrayPSubstitute(index, content){
-  return this.slice(0, index).concat([content], this.slice(index+1));
+Array.prototype.substitute = function ArrayPSubstitute(/* startIndex, endIndex, content */){
+  const startIndex = Math.max(0, Math.min(this.length-1, arguments[0], arguments[1])),
+        endIndex = Math.min(this.length-1, Math.max(0, arguments[0], arguments[1])),
+        reverse = arguments[0] > arguments[1];
+  var content = arguments[2];
+  if (typeof content === 'function') {
+    var replacedContent = this.slice(startIndex, endIndex+1);
+    if (reverse) replacedContent.reverse();
+    content = content(replacedContent);
+  }
+  if (reverse) content.reverse();
+  return this.slice(0, startIndex)
+    .concat(content,
+      this.slice(endIndex+1)
+    );
 };

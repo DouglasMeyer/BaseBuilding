@@ -1,23 +1,55 @@
-var selectStart;
+function mouseToCoords(mouse, gameState){
+  return {
+    x: Math.floor((mouse.x + gameState.world.center.x - gameState.windowSize.width / 2) / 32),
+    y: Math.floor((mouse.y + gameState.world.center.y - gameState.windowSize.height / 2) / 32)
+  }
+}
 
 var memoizedToggleTile = memoize(function(mouse, gameState){
   if (mouse.button === 'left'){
-    if (!selectStart){
-      selectStart = mouse;
+    const coords = mouseToCoords(mouse, gameState);
+    if (!gameState.world.selection){
+      return copyWith(gameState, {
+        world: {
+          selection: {
+            start: coords,
+            end: coords
+          }
+        }
+      });
+    } else {
+      return copyWith(gameState, {
+        world: {
+          selection: {
+            end: coords
+          }
+        }
+      });
     }
-  } else if (selectStart){
-    const x = Math.floor((selectStart.x + gameState.world.center.x - gameState.windowSize.width / 2) / 32),
-          y = Math.floor((selectStart.y + gameState.world.center.y - gameState.windowSize.height / 2) / 32),
-          tiles = gameState.world.tiles;
-    selectStart = null;
+  } else if (gameState.world.selection){
+    const tiles = gameState.world.tiles,
+          start = gameState.world.selection.start,
+          end = gameState.world.selection.end,
+          newTiles = tiles.substitute(start.y, end.y, function(rows){
+            var tileType;
+            return rows.map(function(row){
+              return row.substitute(start.x, end.x, function(tiles){
+                return tiles.map(function(tile){
+                  if (!tileType) tileType = tile.type === 'empty' ? 'floor' : 'empty';
+                  if (tile.type !== tileType) {
+                    return copyWith(tile, { type: tileType });
+                  } else {
+                    return tile;
+                  }
+                });
+              });
+            });
+          });
 
     return copyWith(gameState, {
       world: {
-        tiles: tiles.substitute(y,
-          tiles[y].substitute(x, copyWith(tiles[y][x], {
-            type: tiles[y][x].type === 'empty' ? 'floor' : 'empty'
-          }))
-        )
+        selection: undefined,
+        tiles: newTiles
       }
     });
   }
