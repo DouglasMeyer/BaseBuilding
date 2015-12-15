@@ -45,3 +45,8 @@ global.random = function random(max, min, random){
   min = min || 0;
   return min + (max - min) * (random || Math.random());
 };
+
+//FIXME: Do I want to be extending natives?
+Array.prototype.substitute = function ArrayPSubstitute(index, content){
+  return this.slice(0, index).concat([content], this.slice(index+1));
+};
