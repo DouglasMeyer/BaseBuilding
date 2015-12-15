@@ -21,15 +21,23 @@ function onKeyUp(e){
 }
 function onMouseDown(e){
   e.preventDefault();
-  mouse.button = e.button === 0 ? 'left' : 'right';
+  mouse = copyWith(mouse, {
+    button: e.button === 0 ? 'left' : 'right'
+  });
+  return false;
 }
 function onMouseUp(e){
-  delete mouse.button;
+  e.preventDefault();
+  mouse = copyWith(mouse, {
+    button: undefined
+  });
 }
 function onMouseMove(e){
   e.preventDefault();
-  mouse.x = e.x;
-  mouse.y = e.y;
+  mouse = copyWith(mouse, {
+    x: e.x,
+    y: e.y
+  });
 }
 function onBlur(e){
   actions.splice(0, actions.length);
@@ -45,6 +53,7 @@ document.body.addEventListener('keyup',     onKeyUp);
 document.body.addEventListener('mousemove', onMouseMove);
 document.body.addEventListener('mousedown', onMouseDown);
 document.body.addEventListener('mouseup',   onMouseUp);
+addEventListener('contextmenu', function(e){ e.preventDefault(); });
 addEventListener('blur', onBlur);
 addEventListener('resize', onResize);
 addEventListener('mousedown', function(e){

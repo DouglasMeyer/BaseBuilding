@@ -1,11 +1,13 @@
 var changeState = require('./update/change_state'),
     resizeWindow = require('./update/resize_window'),
-    loadTextures = require('./update/load_textures');
+    loadTextures = require('./update/load_textures'),
+    moveScreen = require('./update/move_screen');
 
 module.exports = function update(timeDelta, input, gameState){
   return [
     changeState.bind(null, input),
     resizeWindow.bind(null, input),
+    moveScreen.bind(null, input),
     function generateTiles(gameState){
       var now = Date.now();
       if (gameState.world && gameState.world.nextTilesRefresh > now) return;
