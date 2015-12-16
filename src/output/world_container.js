@@ -2,11 +2,11 @@
 
 class WorldContainer extends PIXI.Container {
   render(gameState){
-    this.renderWorld(gameState.world.center, gameState.windowSize);
+    this.renderWorld(gameState.world.center, gameState.windowSize, gameState.world.scale);
   }
-  renderWorld(center, windowSize){
-    this.position.x = windowSize.width  / 2 - center.x;
-    this.position.y = windowSize.height / 2 - center.y;
+  renderWorld(center, windowSize, scale){
+    this.position.x = windowSize.width  / 2 - center.x * scale;
+    this.position.y = windowSize.height / 2 - center.y * scale;
   }
 }
 WorldContainer.prototype.renderWorld = memoize(WorldContainer.prototype.renderWorld);

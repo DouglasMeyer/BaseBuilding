@@ -1,7 +1,8 @@
 function mouseToCoords(mouse, gameState){
+  const scale = gameState.world.scale;
   return {
-    x: Math.floor((mouse.x + gameState.world.center.x - gameState.windowSize.width / 2) / 32),
-    y: Math.floor((mouse.y + gameState.world.center.y - gameState.windowSize.height / 2) / 32)
+    x: Math.floor(mouse.x / scale + gameState.world.center.x - gameState.windowSize.width / 2 / scale),
+    y: Math.floor(mouse.y / scale + gameState.world.center.y - gameState.windowSize.height / 2 / scale)
   }
 }
 

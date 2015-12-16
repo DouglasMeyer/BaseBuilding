@@ -12,18 +12,18 @@ class TilesContainer extends PIXI.Container {
     this.tileMap = {};
   }
   render(gameState){
-    let scale = 32,
+    let scale = gameState.world.scale,
         center = gameState.world.center,
         height = gameState.windowSize.height / scale,
         width  = gameState.windowSize.width  / scale,
-        minY = Math.max(0,   Math.floor(center.y/scale-height/2)),
-        maxY = Math.min(100, Math.ceil( center.y/scale+height/2)),
-        minX = Math.max(0,   Math.floor(center.x/scale-width /2)),
-        maxX = Math.min(100, Math.ceil( center.x/scale+width /2));
+        minY = Math.max(0,   Math.floor(center.y-height/2)),
+        maxY = Math.min(100, Math.ceil( center.y+height/2)),
+        minX = Math.max(0,   Math.floor(center.x-width /2)),
+        maxX = Math.min(100, Math.ceil( center.x+width /2));
 
-    this.renderMap(gameState.world.tiles, minY, maxY, minX, maxX);
+    this.renderMap(gameState.world.tiles, minY, maxY, minX, maxX, scale);
   }
-  renderMap(tiles, minY, maxY, minX, maxX){
+  renderMap(tiles, minY, maxY, minX, maxX, scale){
     for (let y in this.tileMap){
       for (let x in this.tileMap[y]){
         if (this.tileMap[y][x] !== tiles[y][x] || x<minX || x>maxX || y<minY || y>maxY){
@@ -39,18 +39,18 @@ class TilesContainer extends PIXI.Container {
       if (!this.tileMap[y]) this.tileMap[y] = {};
       for (let x=minX; x<maxX; x++){
         if (!this.tileMap[y][x]) {
-          this.tileMap[y][x] = this.getTile(tiles, x,y);
+          this.tileMap[y][x] = this.getTile(tiles, x,y, scale);
           this.addChild( this.tileMap[y][x] );
         }
       }
     }
   }
-  getTile(tiles, x, y){
+  getTile(tiles, x, y, scale){
     const tile = tiles[y][x];
     if (tile.type === 'empty') {
       return new PIXI.Container();
     } else if (tile.type === 'floor') {
-      return new FloorGraphics(x,y);
+      return new FloorGraphics(x,y, scale);
     } else {
       throw new Error("TilesContainer#getTile: Unknown tile type: "+tile.type);
     }
@@ -65,10 +65,11 @@ class FloorGraphics extends PIXI.Sprite {
     return this._texture;
   }
 
-  constructor(x,y){
+  constructor(x,y,scale){
     super(FloorGraphics.texture);
-    this.position.x = x*32;
-    this.position.y = y*32;
+    this.position.x = x*scale;
+    this.position.y = y*scale;
+    this.height = this.width = scale;
   }
 }
 

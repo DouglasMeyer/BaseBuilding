@@ -39,6 +39,12 @@ function onMouseMove(e){
     y: e.y
   });
 }
+function onScroll(e){
+  mouse = copyWith(mouse, {
+    scrollX: e.deltaX,
+    scrollY: e.deltaY
+  })
+}
 function onBlur(e){
   actions.splice(0, actions.length);
 }
@@ -53,6 +59,7 @@ document.body.addEventListener('keyup',     onKeyUp);
 document.body.addEventListener('mousemove', onMouseMove);
 document.body.addEventListener('mousedown', onMouseDown);
 document.body.addEventListener('mouseup',   onMouseUp);
+addEventListener('mousewheel', onScroll); //FIXME: should this be 'wheel'?
 addEventListener('contextmenu', function(e){ e.preventDefault(); });
 addEventListener('blur', onBlur);
 addEventListener('resize', onResize);
