@@ -31,13 +31,16 @@ var memoizedMoveScreen = memoize(function(mouse, gameState){
         center: gameState.world.center
       };
     } else {
-      const dx = (panStart.mouse.x - mouse.x) / gameState.world.scale,
-            dy = (panStart.mouse.y - mouse.y) / gameState.world.scale;
-      if (dx !== 0 && dy !== 0){
+      const centerX = (panStart.mouse.x - mouse.x) / gameState.world.scale + panStart.center.x,
+            centerY = (panStart.mouse.y - mouse.y) / gameState.world.scale + panStart.center.y;
+      if (
+        centerX !== gameState.world.center.x ||
+        centerY !== gameState.world.center.y
+      ){
         gameState = copyWith(gameState, {
           world: { center: {
-            x: panStart.center.x + dx,
-            y: panStart.center.y + dy
+            x: centerX,
+            y: centerY
           }}
         });
       }

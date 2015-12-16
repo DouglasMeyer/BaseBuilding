@@ -18,7 +18,10 @@ var memoizedToggleTile = memoize(function(mouse, gameState){
           }
         }
       });
-    } else {
+    } else if (
+      gameState.world.selection.end.x !== coords.x ||
+      gameState.world.selection.end.y !== coords.y
+    ){
       return copyWith(gameState, {
         world: {
           selection: {
