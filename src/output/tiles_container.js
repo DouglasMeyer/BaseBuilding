@@ -13,13 +13,14 @@ class TilesContainer extends PIXI.Container {
   }
   render(gameState){
     let scale = gameState.world.scale,
+        size = gameState.world.size,
         center = gameState.world.center,
         height = gameState.windowSize.height / scale,
         width  = gameState.windowSize.width  / scale,
-        minY = Math.max(0,   Math.floor(center.y-height/2)),
-        maxY = Math.min(100, Math.ceil( center.y+height/2)),
-        minX = Math.max(0,   Math.floor(center.x-width /2)),
-        maxX = Math.min(100, Math.ceil( center.x+width /2));
+        minY = Math.max(0,    Math.floor(center.y-height/2)),
+        maxY = Math.min(size, Math.ceil( center.y+height/2)),
+        minX = Math.max(0,    Math.floor(center.x-width /2)),
+        maxX = Math.min(size, Math.ceil( center.x+width /2));
 
     this.renderMap(gameState.world.tiles, minY, maxY, minX, maxX, scale);
   }

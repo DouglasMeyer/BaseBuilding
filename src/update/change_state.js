@@ -5,13 +5,16 @@
 function start(gameState){
   var newGameState = copyWith(gameState, {
     state: 'playing',
-    world: { tiles: [] }
+    world: {
+      size: 100,
+      tiles: []
+    }
   });
 
-  for (var y=0;y<100;y++){
+  for (var y=0;y<newGameState.world.size;y++){
     var row = [];
     newGameState.world.tiles.push(row);
-    for (var x=0;x<100;x++){
+    for (var x=0;x<newGameState.world.size;x++){
       row.push({
         type: Math.random() > 0.5 ? 'empty' : 'floor',
         looseObject: null,

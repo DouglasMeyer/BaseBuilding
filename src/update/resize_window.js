@@ -1,11 +1,10 @@
 var oldWindow;
 
-var memoizedResizeWindow = memoize(function (window, gameState){
-  return copyWith(gameState, {
-    windowSize: window
-  });
-});
-
 module.exports = function resizeWindow(input, gameState){
-  return memoizedResizeWindow(input.window, gameState);
+  if (input.window === oldWindow) return;
+  oldWindow = input.window;
+
+  return copyWith(gameState, {
+    windowSize: input.window
+  });
 };
