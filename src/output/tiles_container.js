@@ -3,7 +3,7 @@
 class TilesContainer extends PIXI.Container {
   static get textures(){
     return [
-      FloorGraphics.texture
+      FloorGraphic.texture
     ];
   }
 
@@ -51,7 +51,7 @@ class TilesContainer extends PIXI.Container {
     if (tile.type === 'empty') {
       return new PIXI.Container();
     } else if (tile.type === 'floor') {
-      return new FloorGraphics(x,y, scale);
+      return new FloorGraphic(x,y, scale);
     } else {
       throw new Error("TilesContainer#getTile: Unknown tile type: "+tile.type);
     }
@@ -59,7 +59,7 @@ class TilesContainer extends PIXI.Container {
 }
 TilesContainer.prototype.renderMap = memoize(TilesContainer.prototype.renderMap);
 
-class FloorGraphics extends PIXI.Sprite {
+class FloorGraphic extends PIXI.Sprite {
   static get texture(){
     if (this._texture) return this._texture;
     this._texture = PIXI.Texture.fromImage('resources/Floor.png');
@@ -67,7 +67,7 @@ class FloorGraphics extends PIXI.Sprite {
   }
 
   constructor(x,y,scale){
-    super(FloorGraphics.texture);
+    super(FloorGraphic.texture);
     this.position.x = x*scale;
     this.position.y = y*scale;
     this.height = this.width = scale;

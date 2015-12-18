@@ -35,13 +35,13 @@ var memoizedToggleTile = memoize(function(mouse, gameState){
           start = gameState.world.selection.start,
           end = gameState.world.selection.end,
           newTiles = tiles.substitute(start.y, end.y, function(rows){
-            var tileType;
+            var tileType = gameState.tileEditType;
             return rows.map(function(row){
               return row.substitute(start.x, end.x, function(tiles){
                 return tiles.map(function(tile){
-                  if (!tileType) tileType = tile.type === 'empty' ? 'floor' : 'empty';
                   if (tile.type !== tileType) {
-                    return copyWith(tile, { type: tileType });
+                    //FIXME: `|| 'empty'`, need a better way to set defaults.
+                    return copyWith(tile, { type: gameState.tileEditType || 'empty' });
                   } else {
                     return tile;
                   }
