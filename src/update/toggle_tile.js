@@ -40,8 +40,7 @@ var memoizedToggleTile = memoize(function(mouse, gameState){
               return row.substitute(start.x, end.x, function(tiles){
                 return tiles.map(function(tile){
                   if (tile.type !== tileType) {
-                    //FIXME: `|| 'empty'`, need a better way to set defaults.
-                    return copyWith(tile, { type: gameState.tileEditType || 'empty' });
+                    return copyWith(tile, { type: gameState.tileEditType });
                   } else {
                     return tile;
                   }

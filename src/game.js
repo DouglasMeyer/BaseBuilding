@@ -4,15 +4,19 @@ var input = require('./input'),
     output = new Output(),
     tick = require('./tick'),
     update = require('./update'),
-    gameState,
+    setUpdateState = require('./actions').setUpdateState,
+    gameState = {},
 
     game = {
       run: function(){
+        setUpdateState(function(fn){
+          gameState = fn(gameState) || gameState;
+        });
         tick(function gameTick(timeDelta){
           gameState = update(
             timeDelta,
             input.get(),
-            gameState || {}
+            gameState
           );
           output.render(gameState);
         });

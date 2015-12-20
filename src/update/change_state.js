@@ -31,7 +31,7 @@ module.exports = function changeState(input, gameState){
   switch(gameState.state){
 
     case undefined:
-      return start();
+      return start(gameState);
 
     case 'playing':
       break;
