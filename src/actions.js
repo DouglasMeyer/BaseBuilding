@@ -1,11 +1,15 @@
 function addAction(name, defaultArgs, fn){
+  if (!fn) {
+    fn = defaultArgs;
+    defaultArgs = undefined;
+  }
   actions[name] = function(){
     var args = Array.prototype.slice.apply(arguments);
     updateState(function(gameState){
       return fn.apply(null, args.concat([gameState]));
     });
   };
-  if (defaultArgs.length){
+  if (defaultArgs){
     actions[name].setDefault = function(){
       actions[name].apply(null, defaultArgs);
     };
@@ -33,4 +37,8 @@ addAction('setTileEditType', ['floor'], function(tileType, gameState){
   return copyWith(gameState, {
     tileEditType: tileType
   });
+});
+
+addAction('forceReRender', function(gameState){
+  return copyWith(gameState, {});
 });
